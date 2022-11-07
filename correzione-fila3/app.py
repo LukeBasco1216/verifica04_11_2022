@@ -1,10 +1,6 @@
-#   Realizzare un sito web ch epermetta di visualizzare le informazioni riguardanti i clienti.
-#   Un componente dello staff richiama la rotta /infoUser dove sono presenti due text per l'inserimento del nome
-#   e del cognome del cliente ed un bottone per inviare le informazioni, Una volta inviate, il sito risponde con tutte
-#   le informazioni relative a quel cliente, una sotto l'altra. Se il cliente non esiste, deve essere 
-#   visualizzato un opportuno messaggio di errore. Utilizzare Bootstrap per l'interfaccia grafica di tutte le pagine.
-
-
+#   Realizzare un sito web che permetta di visualizzare l'elenco dei primi 10 clienti che hanno speso di più.
+#   Il maneger di BikeStore si collega alla rotta /bestCustomers e riceve l'elenco dei clienti. Cliccando poi sull'ID di uno dei clienti,
+#   si deve poter visualizzare l'elenco degli ordini effettuati. Utilizzare Bootstrap per l'interfaccia grafica.
 
 
 from flask import Flask, render_template, request, redirect, url_for, Response, redirect
@@ -22,9 +18,14 @@ import pymssql
 #collegamento al DB
 connection = pymssql.connect(server="213.140.22.237\SQLEXPRESS", user="basco.luke",password="xxx123##",database="basco.luke")
 
-@app.route('/infoUser', methods=['GET'])
-def homepage():
-  return render_template("homepage.html")
+@app.route('/bestCustomers', methods=['GET'])
+def table():
+    # query= select *
+    # from sales.customers as C inner join sales.orders as O
+    # on C.customer_id = O.customer_id
+    # inner join sales.order_items as OI
+    # on O.order_id = OI.order_id
+    return render_template("table.html")
 
 
 @app.route('/inputval', methods=['GET'])
