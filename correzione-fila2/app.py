@@ -1,7 +1,9 @@
-#   Realizzare un sito web cyhe permetta di visualizzare tutti i dipendenti che lavorano in un certo store.
-#   Il maneger inserisce il nome dello store e clicca su un bottone che invia i dati al server. Quest'ultimo
-#   accede al database e restituisce i nomi e i cognomi dei dipendenti di quello store. Se il nome dello store non è presente,
-#   deve essere restituito un opportuno messaggio di errore. Tutta la parte grafica deve essere gestita con Bootstrap.
+#   Realizzare un sito web ch epermetta di visualizzare le informazioni riguardanti i clienti.
+#   Un componente dello staff richiama la rotta /infoUser dove sono presenti due text per l'inserimento del nome
+#   e del cognome del cliente ed un bottone per inviare le informazioni, Una volta inviate, il sito risponde con tutte
+#   le informazioni relative a quel cliente, una sotto l'altra. Se il cliente non esiste, deve essere 
+#   visualizzato un opportuno messaggio di errore. Utilizzare Bootstrap per l'interfaccia grafica di tutte le pagine.
+
 
 
 
@@ -20,15 +22,16 @@ import pymssql
 #collegamento al DB
 connection = pymssql.connect(server="213.140.22.237\SQLEXPRESS", user="basco.luke",password="xxx123##",database="basco.luke")
 
-@app.route('/', methods=['GET'])
+@app.route('/infoUser', methods=['GET'])
 def homepage():
   return render_template("homepage.html")
 
 
 @app.route('/inputval', methods=['GET'])
 def serv():
-  nomestore = request.args["nomestore"]
-  query = f"select sales.staffs.first_name, sales.staffs.last_name from sales.stores inner join sales.staffs on sales.stores.store_id = sales.staffs.store_id where sales.stores.store_name = '{nomestore}'" 
+  nome = request.args["nome"]
+  cognome = request.args["cognome"]
+  query = f"select * from sales.customers where sales.customers.first_name = '{nome}' and sales.customers.last_name = '{cognome}'" 
   df1 = pd.read_sql(query, connection)
   # controllo se un df è vuoto, semplice semplice
   if list(df1.values.tolist()) == []: # se dati è una lista vuota
@@ -42,4 +45,4 @@ def serv():
 
 
 if __name__ == '__main__':
-  app.run(host='0.0.0.0', port=3225, debug=True)
+  app.run(host='0.0.0.0', port=3235, debug=True)
